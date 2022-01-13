@@ -1,5 +1,6 @@
 <template>
   <div id="sidebar">
+    <avatars/>
     <div class="icons">
       <router-link to="/note/1" title="笔记"><i class="iconfont icon-note"></i></router-link>
       <router-link to="/notebooks" title="笔记本"><i class="iconfont icon-notebook"></i></router-link>
@@ -12,41 +13,45 @@
 </template>
 
 <script>
-export default {}
+import Avatars from './Avatars.vue'
+
+export default {
+  components: {Avatars}
+}
 
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 
 #sidebar {
   position: relative;
   width: 56px;
   text-align: center;
   background-color: #2c333c;
-}
 
-.icons {
-  margin-top: 15px;
-}
+  .icons {
+    margin-top: 15px;
 
-.icons a {
-  padding: 6px 0;
-  display: block;
-}
+    a {
+      padding: 6px 0;
+      display: block;
+    }
 
-.icons .router-link-active {
-  background-color: #5e6266;
-}
+    .router-link-active {
+      background-color: #5e6266;
+    }
+  }
 
-.logout {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
-  text-align: center;
-  cursor: pointer;
-}
+  .logout {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+  }
 
-.iconfont {
-  color: #fff;
+  .iconfont {
+    color: #fff;
+  }
 }
 </style>
