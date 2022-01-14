@@ -14,10 +14,20 @@
 
 <script>
 import Avatars from './Avatars.vue'
+import Auth from '../helpers/auth'
 
 export default {
-  components: {Avatars}
+  components: {Avatars},
+  methods: {
+    onLogout() {
+      Auth.logout().then(data => {
+        this.$router.push({path: 'login'})
+        console.log(data)
+      })
+    }
+  }
 }
+
 
 </script>
 

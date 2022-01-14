@@ -107,6 +107,13 @@
   "resolved" "https://registry.npmmirror.com/@vue/shared/download/@vue/shared-3.2.26.tgz"
   "version" "3.2.26"
 
+"axios@^0.24.0":
+  "integrity" "sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA=="
+  "resolved" "https://registry.npmmirror.com/axios/download/axios-0.24.0.tgz"
+  "version" "0.24.0"
+  dependencies:
+    "follow-redirects" "^1.14.4"
+
 "copy-anything@^2.0.1":
   "integrity" "sha1-hCQHugJGaw34RIGbvjuuu+XUXYc="
   "resolved" "https://registry.npmmirror.com/copy-anything/download/copy-anything-2.0.3.tgz"
@@ -165,6 +172,11 @@
   "integrity" "sha1-UvAQF4wqTBF6d1fP6UKtt9LaTKw="
   "resolved" "https://registry.npmmirror.com/estree-walker/download/estree-walker-2.0.2.tgz"
   "version" "2.0.2"
+
+"follow-redirects@^1.14.4":
+  "integrity" "sha512-+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ=="
+  "resolved" "https://registry.npmmirror.com/follow-redirects/download/follow-redirects-1.14.7.tgz"
+  "version" "1.14.7"
 
 "function-bind@^1.1.1":
   "integrity" "sha1-pWiZ0+o8m6uHS7l3O3xe3pL0iV0="
@@ -243,6 +255,11 @@
   "integrity" "sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE="
   "resolved" "https://registry.npmmirror.com/mime/download/mime-1.6.0.tgz"
   "version" "1.6.0"
+
+"mitt@^3.0.0":
+  "integrity" "sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ=="
+  "resolved" "https://registry.npmmirror.com/mitt/download/mitt-3.0.0.tgz"
+  "version" "3.0.0"
 
 "ms@^2.1.1":
   "integrity" "sha1-V0yBOM4dK1hh8LRFedut1gxmFbI="

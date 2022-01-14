@@ -24,6 +24,12 @@
 </template>
 
 <script>
+
+import Auth from '../helpers/auth'
+import Bus from '../helpers/bus'
+
+Auth.getInfo().then(data => {console.log(data)})
+
 export default {
   data() {
     return {
@@ -76,8 +82,9 @@ export default {
       this.register.isError = false
       this.register.notice = '占位'
     },
-    // 登录页面，监听登录 button 的 click 事件，对用户名和密码进行格式检查
+    // 登录页面，监听登录 button 的 click 事件，
     onLogin() {
+      // 对用户名和密码进行格式检查
       if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)) {
         this.login.isError = true
         this.login.notice = '用户名3~15个字符，支持字母、数字、中文'
@@ -88,12 +95,24 @@ export default {
         this.login.notice = '密码长度为6~16个字符'
         return
       }
-      this.login.isError = false
-      this.login.notice = '占位'
-      console.log(`start login..., username: ${this.login.username} , password: ${this.login.password}`)
+      // 向服务器发送请求，成功的话跳转到笔记本列表页面，失败的话显示提示
+      Auth.login({
+        username: this.login.username,
+        password: this.login.password
+      }).then(() => {
+        this.login.isError = false
+        this.login.notice = '占位'
+        // 调用方法，发起数据传递，到 Avatars 组件中，更新用户名的第一个字母，默认是”未“登录
+        Bus.emit('userInfo', {username: this.login.username})
+        this.$router.push({path: 'notebooks'})
+      }).catch((data) => {
+        this.login.isError = true
+        this.login.notice = data.msg
+      })
     },
-    // 注册页面，监听注册 button 的 click 事件，对用户输入的用户名和密码进行格式检查
+    // 注册页面，监听注册 button 的 click 事件，
     onRegister() {
+      // 对用户输入的用户名和密码进行格式检查
       if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.register.username)) {
         this.register.isError = true
         this.register.notice = '用户名3~15个字符，支持字母、数字、中文'
@@ -104,9 +123,20 @@ export default {
         this.register.notice = '密码长度为6~16个字符'
         return
       }
-      this.register.isError = false
-      this.register.notice = '占位'
-      console.log(`start register..., username: ${this.register.username} , password: ${this.register.password}`)
+      // 向服务器发送请求，成功的话跳转到笔记本列表页面，失败的话显示提示
+      Auth.register({
+        username: this.register.username,
+        password: this.register.password
+      }).then(() => {
+        this.register.isError = false
+        this.register.notice = '占位'
+        // 调用方法，发起数据传递，到 Avatars 组件中，更新用户名的第一个字母，默认是”未“登录
+        Bus.emit('userInfo', {username: this.register.username})
+        this.$router.push({path: 'notebooks'})
+      }).catch((data) => {
+        this.register.isError = true
+        this.register.notice = data.msg
+      })
     },
   }
 }
@@ -186,6 +216,7 @@ export default {
       visibility: hidden;
       font-size: 12px;
       margin-top: 10px;
+      width: 95%;
     }
 
     .error {

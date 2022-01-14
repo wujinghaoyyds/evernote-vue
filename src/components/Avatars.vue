@@ -1,14 +1,31 @@
 <template>
-  <span :title="user.username">{{ slug }}</span>
+  <span :title="username">{{ slug }}</span>
 </template>
 
 <script>
+import Auth from '../helpers/auth'
+import Bus from '../helpers/bus'
 
 export default {
   data() {
     return {
-      user: {username: 'hunger'},
-      slug: 'H'
+      username: '未登录',
+    }
+  },
+  created() {
+    // 注册一个监听事件，监听用户登录时的用户名，login组件中
+    Bus.on('userInfo',user=>{
+      this.username = user.username
+    })
+    Auth.getInfo().then(res => {
+      if (res.isLogin) {
+        this.username = res.data.username
+      }
+    })
+  },
+  computed: {
+    slug() {
+      return this.username.charAt(0)
     }
   }
 }
