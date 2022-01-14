@@ -15,6 +15,3 @@ export const router = createRouter({
         {path: '/trash/:noteId', component: TrashDetail}
     ]
 })
-router.afterEach(() => {
-    console.log('路由切换了')
-})

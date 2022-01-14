@@ -1,84 +1,86 @@
+<!--登录注册 组件-->
 <template>
-  <div id="login">
-    <div class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container">
-          <div class="main"></div>
-          <div class="form">
-            <h3 @click="showRegister">创建账户</h3>
-            <transition name="slide">
-              <div v-bind:class="{show: isShowRegister}" class="register">
-                <input type="text" v-model="register.username" placeholder="用户名">
-                <input type="password" v-model="register.password" @keyup.enter="onRegister" placeholder="密码">
-                <p v-bind:class="{error: register.isError}"> {{ register.notice }}</p>
-                <div class="button" @click="onRegister">创建账号</div>
-              </div>
-            </transition>
-            <h3 @click="showLogin">登录</h3>
-            <transition name="slide">
-              <div v-bind:class="{show: isShowLogin}" class="login">
-                <input type="text" v-model="login.username" placeholder="输入用户名">
-                <input type="password" v-model="login.password" @keyup.enter="onLogin" placeholder="密码">
-                <p v-bind:class="{error: login.isError}"> {{ login.notice }}</p>
-                <div class="button" @click="onLogin"> 登录</div>
-              </div>
-            </transition>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <main id="login-page" class="pageBg"> <!-- 整体背景，蒙层 -->
+    <article class="form"> <!-- 登录注册整体表单 -->
+      <nav class="page-nav"><!-- 登录注册切换，带数据绑定的 class 显示对应的样式 -->
+        <h2 v-bind:class="{show:isShowLogin}" v-on:click="showLogin">登录</h2>
+        <h2 v-bind:class="{show:isShowRegister}" v-on:click="showRegister">注册</h2>
+      </nav>
+      <section class="login" v-show="isShowLogin"> <!-- 登录页面，条件渲染，只是切换元素的 display CSS property -->
+        <input v-model="login.username" type="text" placeholder="用户名">
+        <input v-model="login.password" @keyup.enter="onLogin" type="password" placeholder="密码">
+        <p v-bind:class="{error: login.isError}"> {{ login.notice }}</p><!-- 登录错误提示 -->
+        <button v-on:click="onLogin" class="loginButton">登录</button><!-- 对应页面表单提交的按钮 -->
+      </section>
+      <section class="register" v-show="isShowRegister"><!-- 注册页面 -->
+        <input v-model="register.username" @input="isValidRegisterUsername" type="text" placeholder="设置用户名">
+        <input v-model="register.password" @input="isValidRegisterPassword" @keyup.enter="onRegister" type="password"
+               placeholder="设置密码">
+        <p v-bind:class="{error: register.isError}"> {{ register.notice }}</p><!-- 注册错误提示 -->
+        <button v-on:click="onRegister" class="registerButton">注册</button>
+      </section>
+    </article>
+  </main>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      isShowLogin: true,
-      isShowRegister: false,
-      login: {
-        username: '',
-        password: '',
-        notice: '输入用户名和密码',
-        isError: false
+      isShowLogin: true,  // 是否展示登录页面，默认展示登录页面
+      isShowRegister: false,  // 是否展示注册页面，默认不展示
+      login: {  // 登录
+        username: '',  // 获取用户输入的用户名
+        password: '',  // 获取用户输入密码
+        notice: '占位',  // 提示，需要占一定的的空间，不然增加时页面样式会有变动（原来为空的话，突增一行东西有变化）
+        isError: false  // 是否出错；为true时，<p>标签会有class="error"，对应的内容会显示
       },
-      register: {
+      register: {  // 注册
         username: '',
         password: '',
-        notice: '创建账号后，请记住用户名和密码',
+        notice: '占位',
         isError: false
       }
     }
   },
-
   methods: {
+    // 展示登录页面，监听对应 <h2> 标签的 click 事件
     showLogin() {
       this.isShowLogin = true
       this.isShowRegister = false
     },
+    // 展示注册页面
     showRegister() {
       this.isShowLogin = false
       this.isShowRegister = true
     },
-    onRegister() {
+    // 注册页面，监听 input 事件，判断用户设置用户名 过程中 是否符合要求
+    isValidRegisterUsername() {
+      // 对用户名进行正则表达式检查，错误时将显示用户格式的的要求提示
       if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.register.username)) {
         this.register.isError = true
-        this.register.notice = '用户名3~15个字符，仅限于字母数字下划线中文'
+        this.register.notice = '用户名3~15个字符，支持字母、数字、中文'
         return
       }
+      this.register.isError = false
+      this.register.notice = '占位'
+    },
+    // 注册页面，监听 input 事件，判断用户设置密码 过程中 是否符合要求
+    isValidRegisterPassword() {
+      // 对密码进行正则表达式检查，错误时将显示密码不符合要求的提示
       if (!/^.{6,16}$/.test(this.register.password)) {
         this.register.isError = true
         this.register.notice = '密码长度为6~16个字符'
         return
       }
       this.register.isError = false
-      this.register.notice = ''
-      console.log(`start register..., username: ${this.register.username} , password: ${this.register.password}`)
+      this.register.notice = '占位'
     },
+    // 登录页面，监听登录 button 的 click 事件，对用户名和密码进行格式检查
     onLogin() {
       if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)) {
         this.login.isError = true
-        this.login.notice = '用户名3~15个字符，仅限于字母数字下划线中文'
+        this.login.notice = '用户名3~15个字符，支持字母、数字、中文'
         return
       }
       if (!/^.{6,16}$/.test(this.login.password)) {
@@ -87,123 +89,131 @@ export default {
         return
       }
       this.login.isError = false
-      this.login.notice = ''
-
+      this.login.notice = '占位'
       console.log(`start login..., username: ${this.login.username} , password: ${this.login.password}`)
-    }
+    },
+    // 注册页面，监听注册 button 的 click 事件，对用户输入的用户名和密码进行格式检查
+    onRegister() {
+      if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.register.username)) {
+        this.register.isError = true
+        this.register.notice = '用户名3~15个字符，支持字母、数字、中文'
+        return
+      }
+      if (!/^.{6,16}$/.test(this.register.password)) {
+        this.register.isError = true
+        this.register.notice = '密码长度为6~16个字符'
+        return
+      }
+      this.register.isError = false
+      this.register.notice = '占位'
+      console.log(`start register..., username: ${this.register.username} , password: ${this.register.password}`)
+    },
   }
 }
+
 </script>
 
+<style lang="less" scoped>
 
-<style lang="less">
-.modal-mask {
+.pageBg {
   position: fixed;
-  z-index: 100;
   top: 0;
   left: 0;
+  z-index: 100;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .7);
-  display: table;
-  transition: opacity .3s ease;
-}
-
-.modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.modal-container {
-  width: 800px;
-  height: 500px;
-  margin: 0 auto;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
-  font-family: Helvetica, Arial, sans-serif;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+}
 
-  .main {
-    flex: 1;
-    background: #36bc64 url(//cloud.hunger-valley.com/17-12-13/38476998.jpg-middle) center center no-repeat;
-    background-size: contain;
-  }
+.form {
+  width: 360px;
+  height: 400px;
+  color: #333;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
 
-  .form {
-    width: 270px;
-    border-left: 1px solid #ccc;
-    overflow: hidden;
+  .page-nav {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
 
-    h3 {
-      padding: 10px 20px;
-      margin-top: -1px;
-      font-weight: normal;
-      font-size: 16px;
-      border-top: 1px solid #eee;
-      cursor: pointer;
-
-      &:nth-of-type(2) {
-        border-bottom: 1px solid #eee;
-      }
-    }
-
-    .button {
-      background-color: #2bb964;
-      height: 36px;
-      line-height: 36px;
+    h2 {
+      margin: 0 15px;
+      width: 20%;
+      padding: 12px 0;
       text-align: center;
-      font-weight: bold;
-      color: #fff;
-      border-radius: 4px;
-      margin-top: 18px;
       cursor: pointer;
-    }
-
-    .login, .register {
-      padding: 0 20px;
-      border-top: 1px solid #eee;
-      height: 0;
-      overflow: hidden;
-      transition: height .4s;
+      font-weight: normal;
+      color: #999;
 
       &.show {
-        height: 193px;
-      }
-
-      input {
-        display: block;
-        width: 100%;
-        height: 35px;
-        line-height: 35px;
-        padding: 0 6px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-        outline: none;
-        font-size: 14px;
-        margin-top: 10px;
-      }
-
-      input:focus {
-        border: 3px solid #9dcaf8;
-      }
-
-      p {
-        font-size: 12px;
-        margin-top: 10px;
-        color: #444;
-      }
-
-      .error {
-        color: red;
+        border-bottom: 2px solid #EA6F5A;
+        color: #EA6F5A;
+        font-weight: bolder;
       }
     }
+  }
 
-    .login {
-      border-top: 0;
+  .login, .register {
+    margin-top: 20px;
+    padding: 0 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    input {
+      margin-top: 30px;
+      width: 100%;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      border: 1px solid #999;
+      box-shadow: 1px 1px 5px 1px #999;
+    }
+
+    input:focus {
+      border: 1px solid rgb(54, 52, 51);
+      box-shadow: 1px 1px 5px 1px rgb(54, 52, 51);
+    }
+
+    p {
+      visibility: hidden;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .error {
+      color: red;
+      visibility: visible;
+    }
+
+    button {
+      margin-top: 40px;
+      width: 50%;
+      height: 36px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 20px;
+      border-radius: 36px;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      color: #FFFFFF;
+
+      &.loginButton {
+        background: #3194D0;
+      }
+
+      &.registerButton {
+        background: #2DBE61;
+      }
     }
   }
 }
-
 </style>
