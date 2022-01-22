@@ -1,5 +1,5 @@
 // 接口封装成 API 便于统一维护管理
-import request from './request'
+import request from '../helpers/request'
 // 设置各种请求的路径，方便管理
 const URL = {
     REGISTER: '/auth/register',  // 注册

@@ -29,7 +29,6 @@ html, body, #app {
 
 body {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #eee;
@@ -43,17 +42,6 @@ a {
 
 ul, li {
   list-style: none;
-}
-
-.btn {
-  color: #666;
-  font-size: 12px;
-  padding: 2px 4px;
-  background-color: #fff;
-  box-shadow: 0 0 2px 0 #ccc;
-  border: none;
-  cursor: pointer;
-  display: inline-block;
 }
 #app {
   display: flex;

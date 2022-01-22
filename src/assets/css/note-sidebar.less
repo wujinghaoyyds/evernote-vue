@@ -1,0 +1,82 @@
+.note-sidebar {
+  position: relative;
+  width: 290px;
+  border-right: 1px solid #ccc;
+  background-color: #eee;
+
+  .add-note {
+    position: absolute;
+    right: 5px;
+    top: 12px;
+    color: #666;
+    font-size: 12px;
+    padding: 2px 4px;
+    box-shadow: 0 0 2px 0 #ccc;
+    border: none;
+    z-index: 1;
+  }
+
+  .notebook-title{
+    font-size: 18px;
+    font-weight: normal;
+    color: #333;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    background-color: #f7f7f7;
+    display: block;
+  }
+  .el-dropdown-link{
+    cursor: pointer;
+  }
+  .el-dropdown-menu__item{
+    width: 200px;
+  }
+
+  .menu {
+    display: flex;
+    
+    div {
+      font-size: 12px;
+      padding: 2px 10px;
+      flex: 1;
+      border-right: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+
+    .iconfont{
+      font-size: 10px;
+    }
+  }
+
+  .notes {
+    li {
+      
+      &:nth-child(odd) {
+        background-color: #f2f2f2;
+      }
+
+      a {
+        display: flex;
+        padding: 3px 0;
+        font-size: 12px;
+        border: 2px solid transparent;
+      }
+
+      .router-link-exact-active {
+        border: 2px solid #81c0f3;
+        border-radius: 3px;
+      }
+
+      span {
+        padding: 0 10px;
+        flex: 1;
+      }
+    }
+  }
+}

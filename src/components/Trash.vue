@@ -1,11 +1,11 @@
 <template>
   <div id="trash-detail">
-    <h1>{{msg}} : {{ $route.params.noteId }}</h1>
+    <h1>noteId : {{ $route.query.noteId }}</h1>
   </div>
 </template>
 
 <script>
-import Auth from '../helpers/auth'
+import Auth from '../apis/auth'
 
 export default {
   name: 'Login',

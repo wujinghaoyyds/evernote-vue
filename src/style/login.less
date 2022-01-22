@@ -1,0 +1,105 @@
+.pageBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  background: url(../assets/evernote-bg.jpg) center no-repeat rgba(0, 0, 0, 0.7);
+  background-size: cover;
+}
+
+h1 {
+  font-size: 40px;
+  color: rgba(250, 250, 250, 0.9);
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form {
+  width: 400px;
+  height: 400px;
+  padding: 40px 50px 0 50px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 54%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+
+  .page-tabs {
+    display: flex;
+    justify-content: space-evenly;
+
+    h2 {
+      padding: 8px 0;
+      width: 20%;
+      text-align: center;
+      cursor: pointer;
+      color: #999;
+      border-bottom: 2px solid rgba(0, 0, 0, 0);
+
+      &.show {
+        color: #EA6F5A;
+        border-bottom: 2px solid #EA6F5A;
+      }
+    }
+  }
+
+  .login, .register {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+
+    input {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-size: 16px;
+      outline: 1px solid #777;
+      border: none;
+      background: rgba(0, 0, 0, 0.2);
+      color: #f0f0f0;
+    }
+
+    input:focus {
+      outline: 2px solid #999;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    p {
+      visibility: hidden;
+      font-size: 12px;
+      margin: 10px 0 0 10px;
+
+      &.error {
+        color: red;
+        visibility: visible;
+      }
+    }
+
+    button {
+      margin-top: 40px;
+      width: 100%;
+      height: 36px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 4px;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 08);
+      background: rgba(55, 55, 55, 0.6);
+    }
+
+    button:hover {
+      background: rgba(55, 55, 55, 1);
+    }
+  }
+}

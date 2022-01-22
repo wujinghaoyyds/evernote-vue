@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Auth from '../helpers/auth'
+import Auth from '../apis/auth'
 import Bus from '../helpers/bus'
 
 export default {
