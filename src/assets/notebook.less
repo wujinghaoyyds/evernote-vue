@@ -1,0 +1,243 @@
+@note-border-bottom-color: rgba(200, 200, 200, 1);
+@note-border-bottom-color-opacity: rgba(200, 200, 200, 0);
+
+#note-edit {
+  height: 100vh;
+  min-height: 500px;
+  overflow: auto;
+  flex: 6;
+  background: #282C34;
+
+  .edit-header {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(95, 95, 95, 0.5);
+    border-left: 1px solid rgba(0, 0, 0, 0);
+
+    .edit-note-title {
+      width: 80%;
+      padding-left: 12px;
+      font-size: 20px;
+      font-weight: bold;
+      border: none;
+      outline: none;
+      background: #282c34;
+    }
+
+    .edit-status {
+      margin-right: 10px;
+      font-size: 10px;
+    }
+
+
+  }
+}
+
+#note-sidebar {
+  width: 300px;
+  height: 100vh;
+  min-height: 500px;
+  background: #21252B;
+  display: flex;
+  flex-direction: column;
+
+
+  .notebook-info {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 4px 12px 12px;
+
+    .notebook-related {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .notebook-title {
+        width: 85%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        letter-spacing: 1px;
+        word-spacing: 1px;
+        font-size: 18px;
+        font-weight: 1000;
+      }
+    }
+
+    .note-related {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+
+
+      .add-note {
+        padding: 4px 8px;
+        margin-right: 4px;
+        border-radius: 4px;
+        border: 1px solid #3f4349;
+        outline: none;
+        background: #12161B;
+
+        &:hover {
+          background: #3f4349;
+        }
+
+        &:active {
+          background: #4D78cc;
+        }
+      }
+    }
+  }
+
+  .note-list {
+    padding: 0 8px;
+
+    li {
+      width: 100%;
+      padding: 0 8px 12px 8px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+
+      .note-title {
+        width: 100%;
+        margin: 0 8px 10px 8px;
+        font-size: 15px;
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        letter-spacing: 1px;
+        word-spacing: 1px;
+      }
+
+      div {
+        padding: 0 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .update-time {
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+
+          .update-icon {
+            width: 20px;
+            height: 20px;
+            padding-bottom: 1px;
+            border-radius: 4px;
+            margin-right: 10px;
+            background: rgba(255, 255, 255, 0.2);
+          }
+
+          span {
+            font-size: 13px;
+            opacity: 0.5;
+          }
+        }
+
+        .delete-note-icon {
+          width: 26px;
+          height: 26px;
+          padding: 4px;
+          border-radius: 4px;
+          cursor: pointer;
+          visibility: hidden;
+
+          &:hover {
+            background: #161B22;
+          }
+        }
+      }
+
+      &::before {
+        content: '';
+        height: 1px;
+        margin-bottom: 16px;
+        background: rgba(88, 88, 88, 0.8);
+      }
+
+      &:first-child {
+        &::before {
+          background: rgba(88, 88, 88, 0);
+        }
+      }
+
+      &:hover {
+        background: #323844;
+
+        &::before {
+          background: rgba(88, 88, 88, 0);
+        }
+
+        div {
+          .delete-note-icon {
+            visibility: visible;
+          }
+        }
+      }
+
+      &:hover + li {
+        &::before {
+          background: rgba(88, 88, 88, 0);
+        }
+      }
+
+      &.active {
+        background: #3D424B;
+
+        &::before {
+          background: rgba(88, 88, 88, 0);
+        }
+
+      }
+
+      &.active + li {
+        &::before {
+          background: rgba(88, 88, 88, 0);
+        }
+      }
+    }
+  }
+}
+
+.more-operation-icon {
+  width: 30px;
+  height: 30px;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: rotate(90deg);
+
+  &:hover {
+    background: #3D424B;
+  }
+}
+
+.more-operation {
+  li {
+    width: 100%;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+
+    &:hover {
+      background: #535353;
+    }
+  }
+
+  .sort-order {
+    margin: 8px -10px;
+    font-size: 10px;
+    color: #999;
+
+    &:hover {
+      background: #303133;
+    }
+  }
+}

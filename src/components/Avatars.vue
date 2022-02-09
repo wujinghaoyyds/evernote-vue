@@ -1,51 +1,44 @@
 <template>
-  <span :title="username">{{ slug }}</span>
+  <div class="avatar" :title="`用户名：`+`${user.username}`">
+    <Avatar class="userIcon"/>
+    <span class="username">{{ user.username }}</span>
+  </div>
 </template>
 
-<script>
-import Auth from '../apis/auth'
-import Bus from '../helpers/bus'
+<script setup>
+import {Avatar} from '@element-plus/icons-vue'
+import {useUser} from '../pinia/user'
 
-export default {
-  data() {
-    return {
-      username: '未登录',
-    }
-  },
-  created() {
-    // 注册一个监听事件，监听用户登录时的用户名，login组件中
-    Bus.on('userInfo',user=>{
-      this.username = user.username
-    })
-    Auth.getInfo().then(res => {
-      if (res.isLogin) {
-        this.username = res.data.username
-      }
-    })
-  },
-  computed: {
-    slug() {
-      return this.username.charAt(0)
-    }
-  }
-}
+const user = useUser()
+user.checkLogin()
 </script>
 
-<style scoped>
+<style scoped lang="less">
+.avatar {
+  width: 100%;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 
-span {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  line-height: 32px;
-  border-radius: 50%;
-  background: #f2b81c;
-  color: #fff;
-  text-shadow: 1px 0 1px #795c19;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 18px;
-  margin-top: 15px;
+  .userIcon {
+    width: 32px;
+    height: 32px;
+    padding: 0 2px 3px 2px;
+    margin-right: 10px;
+    border-radius: 50%;
+    color: #455A64;
+    background: #C0C4CC;
+  }
+
+  .username {
+    width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #fff;
+    font-size: 16px;
+  }
 }
 </style>

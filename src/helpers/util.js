@@ -1,4 +1,6 @@
 // 对时间格式进行处理，转换为多久之前
+import {ElMessageBox} from 'element-plus'
+
 const friendlyDate = function (date) {
     // 对传入的 时间 进行判断，类型是否为 object
     const dateObj = typeof date === 'object' ? date : new Date(date)
@@ -24,5 +26,4 @@ const friendlyDate = function (date) {
     }
     return str
 }
-
 export {friendlyDate}

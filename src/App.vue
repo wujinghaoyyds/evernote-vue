@@ -1,39 +1,33 @@
 <template>
-  <sidebar/>
   <router-view/>
 </template>
 
-<script>
+<style lang="less">
 
-import sidebar from './components/Sidebar.vue'
+@import "assets/v-md-editor";
+@import "assets/message-box";
 
-export default {
-  name: 'app', components: {
-    sidebar
-  }
-}
-</script>
-
-<style>
-
-@import '//at.alicdn.com/t/font_496303_kqrjhri8l25d0a4i.css';
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
+  color: #bbb;
+  font-size: 14px;
 
-html, body, #app {
-  height: 100%;
+  ::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #575B61;
+    border-radius: 3px;
+  }
 }
 
 body {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #eee;
+  font-family: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
 }
-
 
 a {
   text-decoration: none;
@@ -42,9 +36,5 @@ a {
 
 ul, li {
   list-style: none;
-}
-#app {
-  display: flex;
-  align-items: stretch;
 }
 </style>

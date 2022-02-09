@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Auth from '../apis/auth'
+
 
 export default {
   name: 'Login',
@@ -14,13 +14,6 @@ export default {
       msg: '回收站笔记详情页'
     }
   },
-  created() {
-    Auth.getInfo().then(res => {
-      if (!res.isLogin) {
-        this.$router.push({path: '/login'})
-      }
-    })
-  }
 }
 </script>
 
