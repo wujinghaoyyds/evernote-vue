@@ -8,7 +8,7 @@
           <template #content>
             <ul class="more-operation">
               <li @click.stop.prevent="store.editNotebookTitle()">修改标题</li>
-              <li @click.stop.prevent="store.deleteNotebook()">删除</li>
+              <li @click.stop.prevent="store.deleteNotebook(store.curNotebook.id)">删除</li>
               <li class="sort-order">排序方式</li>
               <li @click="store.creationTimeNoteList()">创建时间</li>
               <li @click="store.recentUpdateNoteList()">更新时间</li>

@@ -84,7 +84,7 @@ const onRegister = () => { // 注册页面，监听注册 button 的 click 事�
   z-index: 100;
   width: 100%;
   height: 100%;
-  background: url(../assets/evernote-bg.jpg) center no-repeat rgba(0, 0, 0, 0.7);
+  background: url(../../public/evernote-bg.jpg) center no-repeat rgba(0, 0, 0, 0.7);
   background-size: cover;
 
   .page-title {

@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia'
 import {notebookUrl, noteUrl, trashUrl} from '../apis/url'
-import request from '../helpers/request'
+import request from '../apis/request'
 import {ElMessage, ElMessageBox} from 'element-plus'
 
 export const useStore = defineStore({
@@ -63,6 +63,15 @@ export const useStore = defineStore({
                 }).catch(err => reject(err))
             })
         },
+        initialize() {
+            return new Promise((resolve, reject) => {
+                request(notebookUrl.ADD, 'POST', {title: '默认笔记本'}).then(res => {
+                    this.notebooks.unshift(res.data)   // 插入到列表的第一个位置
+                    this.setCurNotebook()// 更改当前笔记本为刚创建的笔记本
+                    resolve(res)
+                }).catch(err => reject(err))
+            })
+        },
         addNotebook() {
             // 调用提示框
             this.promptBox('创建笔记本', '输入新笔记本的标题').then(({value}) => {
@@ -71,21 +80,22 @@ export const useStore = defineStore({
                     request(notebookUrl.ADD, 'POST', {title: value}).then(res => {
                         this.notebooks.unshift(res.data)   // 插入到列表的第一个位置
                         ElMessage.success(res.msg)   // 弹出提示
-                        this.notebook = this.notebooks[0]  // 更改当前笔记本为刚创建的笔记本
+                        this.setCurNotebook()// 更改当前笔记本为刚创建的笔记本
                         resolve(res)
                     }).catch(err => reject(err))
                 })
             })
         },
-        deleteNotebook() {
+        deleteNotebook(curNotebookId) {
             // 调用 confirm 确认框，
             this.confirmBox('删除笔记本', '确认要删除该笔记本吗').then(() => {
                 return request(notebookUrl.DELETE.replace(':id', this.notebook.id), 'DELETE')
             }).then(res => {
-                // 更新列表，移除已删除项
-                this.notebooks = this.notebooks.filter(notebook => notebook.id !== this.notebook.id)
                 // 设置当前笔记本为删除项的下一个，否则为第一个
                 this.notebook = this.notebooks[this.notebookList.indexOf(this.notebook) + 1] || this.notebooks[0]
+                // 更新列表，移除已删除项
+                this.notebooks = this.notebooks.filter(notebook => notebook.id !== curNotebookId)
+                this.setCurNotebook(this.notebook.id)
                 ElMessage.success(res.msg)
             })
         },
@@ -100,17 +110,19 @@ export const useStore = defineStore({
         },
         // 设置当前的笔记本
         setCurNotebook(selectedNotebookId = null) {
-            this.notebook = this.notebooks.find(notebook => notebook.id === selectedNotebookId) || this.notebooks[0]
-            // 根据当前笔记本，获取笔记列表
-            return new Promise((resolve, reject) => {
-                request(noteUrl.GET.replace(':notebookId', this.notebook.id))
-                    .then(res => { // 按更新时间排序
-                        res.data = res.data.sort((a, b) => (b.updatedAt === a.updatedAt ? 0 : a.updatedAt < b.updatedAt ? 1 : -1))
-                        this.notes = res.data
-                        this.setCurNote() // 设置笔记列表中第一个为默认展示的笔记
-                        resolve(res)
-                    }).catch(err => reject(err))
-            })
+            if (this.notebooks.length !== 0) {
+                this.notebook = this.notebooks.find(notebook => notebook.id === selectedNotebookId) || this.notebooks[0]
+                // 根据当前笔记本，获取笔记列表
+                return new Promise((resolve, reject) => {
+                    request(noteUrl.GET.replace(':notebookId', this.notebook.id))
+                        .then(res => { // 按更新时间排序
+                            res.data = res.data.sort((a, b) => (b.updatedAt === a.updatedAt ? 0 : a.updatedAt < b.updatedAt ? 1 : -1))
+                            this.notes = res.data
+                            this.setCurNote() // 设置笔记列表中第一个为默认展示的笔记
+                            resolve(res)
+                        }).catch(err => reject(err))
+                })
+            }
         },
         // 修改排序方式
         creationTimeNoteList() {this.notes = this.notes.sort((a, b) => (b.createdAt === a.createdAt ? 0 : a.createdAt < b.createdAt ? 1 : -1))},

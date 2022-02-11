@@ -5,7 +5,7 @@
   </div>
 </template>
 <script setup>
-import Sidebar from '../components/Sidebar.vue'
+import Sidebar from './Sidebar.vue'
 import NotesSide from './Notebook.vue'
 
 </script>

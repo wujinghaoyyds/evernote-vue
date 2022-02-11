@@ -1,24 +1,20 @@
 <template>
   <aside>
-    <el-header>
-      <span class="page-title">晨旭笔记</span>
-    </el-header>
+    <el-header><span class="page-title">晨旭笔记</span></el-header>
     <Avatars/>
     <!--菜单menu，默认激活 ’默认笔记本‘ 的index，默认打开的 sub-menu 的 index 的数组，需要修改-->
     <el-menu default-active="3" :default-openeds="['2']" background-color="#161B22">
-      <!--创建笔记本-->
-      <el-menu-item index="1" class="addNotebook" @click="store.addNotebook()">
+      <el-menu-item index="1" class="addNotebook" @click="store.addNotebook()"> <!--创建笔记本-->
         <Plus class="styleIcon"/>
         <span>创建笔记本</span>
       </el-menu-item>
-      <!--笔记本列表-->
-      <el-sub-menu index="2">
+      <el-sub-menu index="2">  <!--笔记本列表-->
         <template #title>
           <Folder class="styleIcon"/>
           <span>我的笔记本</span></template>
         <el-scrollbar max-height="200px">
-          <el-menu-item v-for="notebook in store.notebookList" :key="notebook.id"
-                        :index="notebook.id.toString()" :class="{active:notebook.id === store.curNotebook.id}"
+          <el-menu-item v-for="notebook in store.notebookList" :index="notebook.id.toString()" :key="notebook.id"
+                        :class="{active:notebook.id === store.curNotebook.id}"
                         @click="store.setCurNotebook(notebook.id)">
             <div class="title-wrapper">
               <Notebook class="styleIcon"/>
@@ -31,11 +27,9 @@
       <el-menu-item index="3">
         <div class="trash-link" @click="drawer = true">
           <Delete class="styleIcon"/>
-          <span>回收站</span>
-        </div>
+          <span>回收站</span></div>
         <el-drawer v-model="drawer" title="I am the title" size="calc(100vw - 210px)" modal-class="mask-layer-opacity"
-                   :show-close="false"
-                   @open="store.getTrashNoteList()">
+                   :show-close="false" @open="store.getTrashNoteList()">
           <template #title>
             <div class="trash-header">
               <span class="trash-title">回收站共有 {{ store.trashNoteList.length }} 篇笔记</span>
@@ -90,7 +84,15 @@ import {ref} from 'vue'
 const drawer = ref(false)
 const user = useUser()
 const store = useStore()
-store.getNotebookList() // 获取到所有的笔记本列表 创建时执行
+// 获取到所有的笔记本列表 创建时执行
+store.getNotebookList().then(() => {
+  if (store.notebookList.length === 0) {
+    store.initialize().then(() => {
+      store.addNote({title: '欢迎适应晨旭笔记', content: '欢迎欢迎，热烈欢迎'})
+      store.getNotebookList()
+    })
+  }
+})
 </script>
 
 <style lang="less" scoped src="../assets/sidebar.less"/>

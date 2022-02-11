@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
 import {userUrl} from '../apis/url'
 import router from '../router.ts'
-import request from '../helpers/request'
+import request from '../apis/request'
 
 export const useUser = defineStore({
     id: 'user',
@@ -35,10 +35,8 @@ export const useUser = defineStore({
             // 获取用户信息，根据返回的信息检查是否处在登录状态
             return request(userUrl.GET_INFO).then(res => {
                 if (res.isLogin) {
-                    console.log('一直带登录')
                     this.user = res.data
                 } else {
-                    console.log('没有登录')
                     router.push({path: '/login'}).catch(err => console.log(err))
                 }
             })
