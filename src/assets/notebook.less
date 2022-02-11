@@ -1,6 +1,11 @@
 @note-border-bottom-color: rgba(200, 200, 200, 1);
 @note-border-bottom-color-opacity: rgba(200, 200, 200, 0);
 
+.note-empty {
+  flex: 1;
+  background: #282C34;
+}
+
 #note-edit {
   height: 100vh;
   min-height: 500px;
@@ -28,11 +33,10 @@
     }
 
     .edit-status {
-      margin-right: 10px;
+      min-width: 90px;
       font-size: 10px;
+      text-align: center;
     }
-
-
   }
 }
 

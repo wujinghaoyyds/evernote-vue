@@ -10,26 +10,24 @@ import {Avatar} from '@element-plus/icons-vue'
 import {useUser} from '../pinia/user'
 
 const user = useUser()
-user.checkLogin()
+user.checkLogin() // 下面的东西第一次不执行，补上，否则会显示未登录
+// 必须外面再嵌套一层
+setInterval(function () {user.checkLogin()}, 120000)
 </script>
 
 <style scoped lang="less">
 .avatar {
   width: 100%;
-  margin: 20px 0;
+  margin: 16px 0;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 
   .userIcon {
-    width: 32px;
-    height: 32px;
-    padding: 0 2px 3px 2px;
-    margin-right: 10px;
-    border-radius: 50%;
-    color: #455A64;
-    background: #C0C4CC;
+    width: 22px;
+    height: 22px;
+    margin-right: 8px;
   }
 
   .username {
@@ -38,7 +36,7 @@ user.checkLogin()
     text-overflow: ellipsis;
     white-space: nowrap;
     color: #fff;
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 </style>

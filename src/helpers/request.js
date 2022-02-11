@@ -32,7 +32,7 @@ export default function request(url, type = 'GET', data = {}) {
                 resolve(res.data)
             } else {  // 失败
                 // Element UI 消息提示
-                // ElMessage.error(res.data.msg)
+                ElMessage.error(res.data.msg)
                 reject(res.data)
             }
         }).catch(() => {

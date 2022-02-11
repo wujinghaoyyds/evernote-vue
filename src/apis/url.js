@@ -18,4 +18,10 @@ const userUrl = {
     LOGOUT: '/auth/logout',      // 注销
     GET_INFO: '/auth'            // 获取用户信息
 }
-export {notebookUrl, noteUrl, userUrl}
+
+const trashUrl = {
+    GET: '/notes/trash',
+    REVERT: '/notes/:noteId/revert',
+    DELETE: '/notes/:noteId/confirm'
+}
+export {notebookUrl, noteUrl, userUrl, trashUrl}

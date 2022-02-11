@@ -3,10 +3,6 @@
 </template>
 
 <style lang="less">
-
-@import "assets/v-md-editor";
-@import "assets/message-box";
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -37,4 +33,8 @@ a {
 ul, li {
   list-style: none;
 }
+
+@import "assets/v-md-editor";
+@import "assets/message-box";
+@import "assets/el-drawer";
 </style>

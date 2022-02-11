@@ -30,7 +30,9 @@
           <div>
             <div class="update-time">
               <UploadFilled class="update-icon"/>
-              <span>{{ friendlyDate(note.updatedAt) }}</span>
+              <span>{{
+                  new Date(note.updatedAt).toLocaleDateString() + new Date(note.updatedAt).toLocaleTimeString()
+                }}</span>
             </div>
             <Delete class="delete-note-icon" @click="store.deleteNote()"/>
           </div>
@@ -38,39 +40,37 @@
       </ol>
     </el-scrollbar>
   </div>
-  <div id="note-edit">
+  <div class="note-empty" v-if="!store.curNote.id">
+    <el-empty description="请创建笔记"></el-empty>
+  </div>
+
+  <div id="note-edit" v-if="store.curNote.id">
     <header class="edit-header">
       <input class="edit-note-title" type="text" v-model="store.curNote.title" @input="onUpdateNote"
-             @keydown="statusText='正在输入'"
              placeholder="添加标题">
       <span class="edit-status">{{ statusText }}</span>
     </header>
-    <v-md-editor v-model="store.curNote.content" @input="onUpdateNote" @inputRead="statusText='正在输入...'"
-                 height="calc(100vh - 40px)"/>
+    <v-md-editor v-model="store.curNote.content" @change="onUpdateNote" @save="saved" height="calc(100vh - 40px)"/>
   </div>
 </template>
 
 <script setup>
 import {Delete, UploadFilled, MoreFilled} from '@element-plus/icons-vue'
 import {useStore} from '../pinia/store'
-import {friendlyDate} from '../helpers/util'
 import _ from 'lodash' // 防抖
 import {ref} from 'vue'
 
 const store = useStore()
-const statusText = ref('未改动')
+const statusText = ref('笔记将自动保存')
 
-store.checkLogin
+const saved = () => {
+  store.updateNote().then(() => {statusText.value = '已保存'}).catch(() => {statusText.value = '保存出错'})
+}
 
 const onUpdateNote = _.debounce(function () {
   if (!store.curNote.id) return
-  store.updateNote().then(data => {
-    statusText.value = '已保存'
-  }).catch(data => {
-    statusText.value = '保存出错'
-  })
-  console.log(statusText.value)
-}, 1000)
+  store.updateNote().then().catch(() => {statusText.value = '保存出错'})
+}, 3000)
 
 </script>
 

@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia'
-import {notebookUrl, noteUrl} from '../apis/url'
+import {notebookUrl, noteUrl, trashUrl} from '../apis/url'
 import request from '../helpers/request'
 import {ElMessage, ElMessageBox} from 'element-plus'
 
@@ -10,6 +10,7 @@ export const useStore = defineStore({
         notebook: null, // 当前笔记本
         notes: [], // 当前笔记本对应的笔记列表
         note: null, // 当前笔记本中正在展示的笔记的 id
+        trashNotes: null, // 回收站笔记列表
     }),
     getters: {
         // 默认的笔记本列表，其他排序方式暂时不考虑
@@ -20,6 +21,7 @@ export const useStore = defineStore({
         noteList: (state) => state.notes || [],
         // 当前展示的笔记
         curNote: (state) => state.note || {title: '', content: ''},
+        trashNoteList: (state) => state.trashNotes || [],
     },
     actions: {
         // prompt 类型的提示
@@ -55,12 +57,10 @@ export const useStore = defineStore({
                 request(notebookUrl.GET).then(res => {
                     // 按照创建的时间排序
                     res.data = res.data.sort((a, b) => (b.createdAt === a.createdAt ? 0 : a.createdAt < b.createdAt ? 1 : -1))
+                    this.notebooks = res.data  // 将获取到的值赋值给 原始的notebooks
+                    this.setCurNotebook()  // 设置列表中第一个为默认展示的笔记本
                     resolve(res)
                 }).catch(err => reject(err))
-                // 将获取到的值赋值给 原始的notebooks
-            }).then(res => {
-                this.notebooks = res.data
-                this.setCurNotebook()  // 设置列表中第一个为默认展示的笔记本
             })
         },
         addNotebook() {
@@ -68,14 +68,12 @@ export const useStore = defineStore({
             this.promptBox('创建笔记本', '输入新笔记本的标题').then(({value}) => {
                 // 向服务器发送请求，value为用户输入的标题
                 return new Promise((resolve, reject) => {
-                    request(notebookUrl.ADD, 'POST', {title: value}).then(res => resolve(res)).catch(err => reject(err))
-                }).then(res => {
-                    // 插入到列表的第一个位置
-                    this.notebooks.unshift(res.data)
-                    // 弹出提示
-                    ElMessage.success(res.msg)
-                    // 更改当前笔记本为刚创建的笔记本
-                    this.notebook = this.notebooks[0]
+                    request(notebookUrl.ADD, 'POST', {title: value}).then(res => {
+                        this.notebooks.unshift(res.data)   // 插入到列表的第一个位置
+                        ElMessage.success(res.msg)   // 弹出提示
+                        this.notebook = this.notebooks[0]  // 更改当前笔记本为刚创建的笔记本
+                        resolve(res)
+                    }).catch(err => reject(err))
                 })
             })
         },
@@ -108,11 +106,10 @@ export const useStore = defineStore({
                 request(noteUrl.GET.replace(':notebookId', this.notebook.id))
                     .then(res => { // 按更新时间排序
                         res.data = res.data.sort((a, b) => (b.updatedAt === a.updatedAt ? 0 : a.updatedAt < b.updatedAt ? 1 : -1))
+                        this.notes = res.data
+                        this.setCurNote() // 设置笔记列表中第一个为默认展示的笔记
                         resolve(res)
                     }).catch(err => reject(err))
-            }).then(res => {
-                this.notes = res.data
-                this.setCurNote() // 设置笔记列表中第一个为默认展示的笔记
             })
         },
         // 修改排序方式
@@ -126,10 +123,11 @@ export const useStore = defineStore({
         addNote({title = '', content = ''} = {title: '', content: ''}) {
             return new Promise((resolve, reject) => {
                 request(noteUrl.ADD.replace(':notebookId', this.notebook.id), 'POST', {title, content})
-                    .then(res => resolve(res)).catch(err => {reject(err)})
-            }).then(res => {
-                this.notes.unshift(res.data)
-                this.note = this.notes[0]
+                    .then(res => {
+                        this.notes.unshift(res.data)
+                        this.note = this.notes[0]
+                        resolve(res)
+                    }).catch(err => {reject(err)})
             })
         },
         updateNote() {
@@ -137,8 +135,6 @@ export const useStore = defineStore({
                 title: this.curNote.title,
                 content: this.curNote.content
             }).then(() => {
-                console.log('更新了')
-                console.log(this.note.content)
                 let note = this.notes.find(note => note.id === this.curNote.id) || {}
                 note.title = this.curNote.title
                 note.content = this.curNote.content
@@ -151,6 +147,35 @@ export const useStore = defineStore({
                 // 设置当前笔记 为删除项的下一个，否则为第一个
                 this.note = this.notes[this.notes.indexOf(this.note) + 1] || this.notes[0]
             })
+        },
+        getTrashNoteList() {
+            return new Promise((resolve, reject) => {
+                request(trashUrl.GET).then(res => {
+                    res.data = res.data.sort((a, b) => (b.updatedAt === a.updatedAt ? 0 : a.updatedAt < b.updatedAt ? 1 : -1))
+                    this.trashNotes = res.data
+                    resolve(res)
+                }).catch(err => reject(err))
+            })
+        },
+        trashNoteBelongTo(notebookId) {
+            let trashNoteBelongToNotebook = this.notebooks.find(notebook => notebook.id === notebookId) || {}
+            return trashNoteBelongToNotebook.title || ''
+        },
+        deleteTrashNote(trashNoteId) {
+            this.confirmBox('删除笔记', '确认要删除该笔记吗，删除后将永久无法恢复').then(() => {
+                return request(trashUrl.DELETE.replace(':noteId', trashNoteId), 'DELETE')
+            }).then(res => {
+                this.trashNotes = this.trashNotes.filter(trashNote => trashNote.id !== trashNoteId)
+                ElMessage.success(res.msg)
+            })
+        },
+        revertTrashNote(curTrashNote) {
+            return request(trashUrl.REVERT.replace(':noteId', curTrashNote.id), 'PATCH')
+                .then(res => {
+                    this.trashNotes = this.trashNotes.filter(trashNote => trashNote.id !== curTrashNote.id)
+                    this.setCurNotebook(curTrashNote.notebookId)
+                    ElMessage.success(res.msg)
+                })
         },
     }
 })

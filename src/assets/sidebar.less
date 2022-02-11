@@ -1,0 +1,80 @@
+@import (inline) "../assets/google-fonts.css";
+
+@bg-color: #161B22;
+@title-shadow: #42fff6;
+
+aside {
+  width: 210px; //再小笔记本列表会有横向滚动条
+  height: 100vh;
+  min-height: 500px;
+  background-color: @bg-color;
+}
+
+.el-header {
+  display: flex;
+  width: 100%;
+  height: 60px;
+  background: #161B22;
+  padding-top: 5px;
+  color: #ffffff;
+
+  .page-title {
+    font: 400 40px 'ZhiMangXing-Regular', cursive;
+    color: #ffffff;
+    text-shadow: 0 0 5px @title-shadow, 0 0 10px @title-shadow, 0 0 20px @title-shadow, 0 0 30px @title-shadow;
+  }
+}
+
+.el-menu, .el-sub-menu, .el-menu-item {
+  border: none;
+}
+
+.el-menu-item {
+  display: flex;
+  align-items: center;
+  height: 40px;
+
+  &.active {
+    background: #21252B;
+  }
+}
+
+.el-sub-menu {
+  .el-menu-item {
+    height: 35px;
+  }
+}
+
+.addNotebook:active {
+  background: #4D78CC;
+}
+
+.styleIcon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  height: 40px;
+
+  .notebookTitle {
+    width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.trash-link {
+  display: flex;
+  align-items: center;
+}
+
+.web-intro {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}

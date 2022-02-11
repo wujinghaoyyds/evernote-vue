@@ -7,14 +7,6 @@
   background: @editor-bgColor;
   color: @editor-color;
   border-color: rgba(105, 105, 105, 0.7) !important;
-
-  & li {
-    background: rgb(47, 52, 60);
-
-    &:hover {
-      background: #ccc;
-    }
-  }
 }
 
 .v-md-editor__toolbar-divider::before {
@@ -22,7 +14,18 @@
 }
 
 [class*="v-md-editor__toolbar"] {
-  background: #23272D;
+  background: @editor-bgColor;
+
+  ul {
+    li {
+      background: rgb(47, 52, 60);
+
+      &:hover {
+        background: #ccc;
+      }
+    }
+  }
+
 }
 
 [class*="CodeMirror"] { // 输入框
@@ -50,9 +53,18 @@ img {
   }
 
   ul {
+    list-style: disc;
+
     li {
       list-style: disc;
-      background: @editor-bgColor;
+    }
+  }
+
+  ol {
+    list-style: decimal;
+
+    li {
+      list-style: decimal;
     }
   }
 
@@ -73,5 +85,23 @@ img {
         }
       }
     }
+  }
+}
+
+// 目录导航
+
+.v-md-editor__left-area-title {
+  color: #ddd !important;
+}
+
+.v-md-editor__left-area-title:after {
+  border-bottom: 1px solid rgba(105, 105, 105, 0.7) !important;
+}
+
+.v-md-editor__toc-nav {
+  list-style: disc !important;
+
+  li {
+    list-style: disc !important;
   }
 }

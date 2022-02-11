@@ -3,7 +3,6 @@
     <Sidebar/>
     <NotesSide/>
   </div>
-
 </template>
 <script setup>
 import Sidebar from '../components/Sidebar.vue'

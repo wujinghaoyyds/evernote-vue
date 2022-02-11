@@ -1,6 +1,6 @@
 <template> <!--登录注册 组件-->
   <main id="page-bg"> <!-- 整体背景，为一张图片 -->
-    <h1 class="page-title">极客笔记</h1>
+    <h1 class="page-title">晨旭笔记</h1>
     <div class="form"> <!-- 登录注册整体表单 -->
       <nav class="page-tabs"> <!-- 登录注册Tabs,根据布尔值，对应的class为"show"，click 交换两个值，数组解构赋值-->
         <h2 :class="{show:displayLogin}" @click="[displayLogin,displayRegister] = [displayRegister, displayLogin]">

@@ -1,0 +1,121 @@
+.el-drawer {
+  background: #21252B;
+
+  header {
+    margin-bottom: -20px;
+  }
+}
+
+.mask-layer-opacity {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.trash-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .trash-title {
+    padding-left: 30px;
+    margin-bottom: 20px;
+    width: 100%;
+    line-height: 50px;
+    font-size: 18px;
+    background: #081010;
+  }
+
+  .trash-info {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+
+    &:first-child {
+      padding-left: 20px;
+    }
+
+    span {
+      text-align: center;
+      width: 25%;
+      line-height: 30px;
+      border-bottom: 1px solid #999;
+    }
+  }
+}
+
+.trash-note-list {
+  counter-reset: sectioncounter;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  li {
+    display: flex;
+    width: 100%;
+    max-width: 900px;
+    line-height: 30px;
+    padding-left: 20px;
+
+    &:before {
+      content: counter(sectioncounter) "、";
+      counter-increment: sectioncounter;
+      font-weight: bold;
+    }
+
+    &:hover {
+      background: #323844;
+    }
+
+    span {
+      width: 25%;
+      line-height: 40px;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .trash-note-title {
+      text-align: left;
+      padding-left: 6px;
+    }
+
+    .last-updated-time {
+      font-size: 10px;
+      font-style: italic;
+      color: #666;
+    }
+
+    .trash-more-operations {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      button {
+
+        padding: 2px 4px;
+        border-radius: 4px;
+        background: #121212;
+        border: none;
+        outline: none;
+
+        &.completely-delete {
+          margin-right: 8px;
+
+          &:hover {
+            background: red;
+          }
+        }
+
+        &.recover {
+          &:hover {
+            background: #42fff6;
+          }
+        }
+      }
+    }
+  }
+}
