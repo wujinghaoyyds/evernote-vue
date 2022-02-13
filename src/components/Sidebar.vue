@@ -3,7 +3,7 @@
     <el-header><span class="page-title">晨旭笔记</span></el-header>
     <Avatars/>
     <!--菜单menu，默认激活 ’默认笔记本‘ 的index，默认打开的 sub-menu 的 index 的数组，需要修改-->
-    <el-menu default-active="3" :default-openeds="['2']" background-color="#161B22">
+    <el-menu default-active="2" :default-openeds="['2']" background-color="#161B22">
       <el-menu-item index="1" class="addNotebook" @click="store.addNotebook()"> <!--创建笔记本-->
         <Plus class="styleIcon"/>
         <span>创建笔记本</span>
@@ -88,10 +88,9 @@ const store = useStore()
 store.getNotebookList().then(() => {
   if (store.notebookList.length === 0) {
     store.initialize().then(() => {
-      store.addNote({title: '欢迎适应晨旭笔记', content: '欢迎欢迎，热烈欢迎'})
+      store.addNote({title: '欢迎使用晨旭笔记', content: '欢迎欢迎，热烈欢迎。更多内容查看：https://zhuanlan.zhihu.com/p/466859830'})
       store.getNotebookList()
-    })
-  }
+    })}
 })
 </script>
 
